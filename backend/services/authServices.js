@@ -40,5 +40,5 @@ export const loginUser = async (email, password) => {
 };
 
 export const getProfile = async (userId) => {
-  return await User.findById(userId);
+  return await User.findById(userId).select("-password");
 };

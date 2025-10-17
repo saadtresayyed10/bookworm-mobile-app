@@ -27,3 +27,18 @@ export const registerUser = async (email, username, password) => {
 
   return { token, user };
 };
+
+export const loginUser = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) throw new Error("User do not exist");
+
+  const isPasswordValid = await bcryptjs.compare(password, user.password);
+  if (!isPasswordValid) throw new Error("Incorrect password");
+
+  const token = generateToken(user._id);
+  return { token, user };
+};
+
+export const getProfile = async (userId) => {
+  return await User.findById(userId);
+};
